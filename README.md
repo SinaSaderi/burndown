@@ -3,6 +3,8 @@
 
 A simple BurnDown chart generator.
 
+![Screenshot](http://sina.sinasaderi.ir/screenshot.png)
+
 ## How to run
 
 To run Burndown in development mode; Just use steps below:
