@@ -5,7 +5,7 @@ A simple BurnDown chart generator.
 
 # Screenshot
 
-![Screenshot](http://sina.sinasaderi.ir/screenshot.png)
+![Screenshot](http://sina.sinasaderi.ir/scrt.png)
 
 ## How to run
 
