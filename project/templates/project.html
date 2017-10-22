@@ -1,0 +1,128 @@
+{% extends "master.html"%}
+{% load staticfiles %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/chart.css' %}"  crossorigin="anonymous">
+<h2>{{ project.title }} project by {{ project.team }}</h2>
+
+    <div class="container" id="mainPage" style="background: #11a8ab;">
+            <canvas id="myCanvas" class="convs" width="1200" height="500" style="position: absolute; opacity: 0.5" >
+             Your browser does not support the HTML5 canvas tag.</canvas>
+        <span class="remain-hours">Remining work [{{ remainingHours }} hours] <span class="velocity">( Velocity: {{velocity}} )</span></span>
+        <table cellspacing="0" cellpadding="0" border="0" width="90%" id="table1">
+            {%for h in totalHours %}
+            <tr>
+                {% for d in days %}
+
+                    <td id="{{d}}" title="{{h}}">
+                        {% if forloop.counter == 1 %}
+                        <span class="hourSpan">{{h}}</span>
+                        {% endif %}
+                        <!--{{ forloop.parentloop.counter }}-->
+                        {% if forloop.parentloop.counter == 21 %}
+                            <spanc class="daySpan">{{d}}</span>
+                        {% endif %}
+
+                        &nbsp;
+                    </td>
+                    
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+
+        <table id="onair" cellspacing="0" cellpadding="0" border="0" style="position: absolute; border-color: #ff0000;     ">
+            {%for h in totalHours %}
+            <tr>
+                {% for d in days %}
+
+                <td id="{{d}}">&nbsp;</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+
+        <!-- <div class="chart-footer">Total days : {{ totalDaysCount }} days &nbsp;&nbsp;&nbsp;&nbsp; Closed days: </div> -->
+    </div>
+    <div class="chart-footer">
+        <ul class="month-data clear">
+            <li>
+                <p>Total days: <span class="scnd-font-color">{{ totalDaysCount }} days</span></p>
+                <p><span class="entypo-plus increment"> </span><sup></sup></p>
+            </li>
+            <li>
+                <p>Closed days: <span class="scnd-font-color"> {{closedDaysCount}} days</span></p>
+                <p><span class="entypo-plus increment"> </span>Remainig: {{totalPercentage}}<sup>%</sup></p>
+            </li>
+        </ul>
+    </div>
+
+    <script>
+        var rect = document.getElementById("table1").getBoundingClientRect();
+        console.log(rect)
+        document.getElementById("onair").style.top = "138px";
+        document.getElementById("onair").style.height = rect.height + "px";
+        document.getElementById("onair").style.width = rect.width + "px";
+
+
+        $(function (){
+            $t = $("#table1");
+            top1 = $t.position().top;
+            left = $t.position().left;
+            bottom = $t.outerHeight(true);
+            right =  $t.outerWidth(true);
+
+            tdCount = $('#table1 tr').eq(0).find('td').length;
+            tdWidth = $('#table1 tr').eq(0).find('td').eq(tdCount - 1).outerWidth(true);
+            $('#table1 tr').find('td').css("width", tdWidth+"px");
+            $('#onair tr').find('td').css("width", tdWidth+"px");
+            console.log(tdWidth);
+            daySpanMargin = tdWidth - 30
+            $(".daySpan").css("margin-left", daySpanMargin+"px");
+
+
+            var c = document.getElementById("myCanvas");
+            var ctx = c.getContext("2d");
+            ctx.setLineDash([5, 3]);
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(right, bottom);
+            ctx.lineWidth = 2
+            ctx.strokeStyle = '#ffffff';
+            ctx.stroke();
+            i = 0;
+        
+            cTop = 0;
+            cLeft = 0;
+            cHight = 0;
+            cWidth = 0;
+            cHight = $('#onair tr').eq(i).find('td').eq(i).outerHeight(true)
+            cWidth = $('#onair tr').eq(i).find('td').eq(i).outerWidth(true)
+            normalCompleted = 400 / {{ days|length }}
+            {% for c in tableCompleted %}
+                result = ({{c}} * cHight) / {{nHour}}
+                $( '<canvas class="convs" id="conv'+i+'" width="1200" height="500"></canvas>' ).insertBefore( "#table1" );
+                $( '<span id="dotSpan'+i+'" class="dotSpan"></span>' ).appendTo( "#onair" ).find('tr').eq(i).find('td').eq(i);
+                j = i + 1;
+
+                var c = document.getElementById('conv'+i);
+                var ctx = c.getContext("2d");
+                ctx.beginPath();
+                toLeft = cWidth * j
+
+                console.log("cHight:" + parseInt(cHight) + " | cLeft:" + parseInt(cLeft) + " | cTop:" + parseInt(cTop) + " | toLeft:" + parseInt(toLeft) + " | result:" + parseInt(cTop + result));
+                ctx.moveTo(cLeft, cTop);
+                ctx.lineTo(toLeft, cTop + result);
+                $('#dotSpan'+i).css("top", (cTop - 3)+"px");
+                $('#dotSpan'+i).css("left", (cLeft - 3) +"px");
+                ctx.lineWidth = 2;
+                
+                ctx.strokeStyle = '#FFF';
+                ctx.stroke();
+                cTop += result;
+                cLeft += cWidth;
+
+                i++;
+            {% endfor %}
+        });
+    </script>
+{% endblock %}

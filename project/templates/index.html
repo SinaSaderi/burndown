@@ -1,0 +1,14 @@
+{% extends "master.html"%}
+{% load staticfiles %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/chart.css' %}"  crossorigin="anonymous">
+<h2>Nutash porojects</h2>
+
+<ul class="list-group project-list">
+	{% for project in projects %}
+  <li class="list-group-item"><a href="/project/{{ project.id }}/">{{ project.title }}</a></li>
+	{% endfor %}
+</ul>
+
+
+{% endblock %}
