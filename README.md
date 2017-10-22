@@ -3,6 +3,8 @@
 
 A simple BurnDown chart generator.
 
+# Screenshot
+
 ![Screenshot](http://sina.sinasaderi.ir/screenshot.png)
 
 ## How to run
