@@ -1,6 +1,6 @@
 Salam
 # BurnDown
-sina
+sinas
 A simple BurnDown chart generator.
 
 # Screenshot
