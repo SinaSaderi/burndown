@@ -1,6 +1,6 @@
 
 # BurnDown
-
+sina
 A simple BurnDown chart generator.
 
 # Screenshot
