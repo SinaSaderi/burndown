@@ -1,4 +1,4 @@
-Django==2.2.24
+Django==2.2.28
 django-jalali==2.4.4
 django-zurb-foundation-rtl==6.0.6.3
 jdatetime==1.9.0
